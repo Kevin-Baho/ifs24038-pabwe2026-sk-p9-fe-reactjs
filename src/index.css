@@ -126,11 +126,34 @@
 /* Toast UI Viewer & Editor Markdown Contrast Fixes (WCAG 2 AA) */
 .toastui-editor-contents blockquote,
 .toastui-viewer-container blockquote {
-  color: #334155 !important;
   border-left: 4px solid var(--accent-500, #6366f1) !important;
   background-color: #f8fafc !important;
   padding: 8px 16px !important;
   border-radius: 0 8px 8px 0 !important;
+}
+
+.toastui-editor-contents blockquote,
+.toastui-viewer-container blockquote,
+.toastui-editor-contents blockquote *,
+.toastui-viewer-container blockquote *,
+.toastui-editor-contents blockquote p,
+.toastui-viewer-container blockquote p,
+.toastui-editor-contents blockquote ul,
+.toastui-viewer-container blockquote ul,
+.toastui-editor-contents blockquote ol,
+.toastui-viewer-container blockquote ol,
+.toastui-editor-contents blockquote em,
+.toastui-viewer-container blockquote em,
+.toastui-editor-contents blockquote span,
+.toastui-viewer-container blockquote span,
+.toastui-editor-contents del {
+  color: #334155 !important;
+}
+
+.toastui-editor-contents blockquote strong,
+.toastui-viewer-container blockquote strong {
+  color: #0f172a !important;
+  font-weight: 700 !important;
 }
 
 .toastui-editor-contents,
@@ -139,7 +162,7 @@
 .toastui-viewer-container,
 .toastui-viewer-container p,
 .toastui-viewer-container li {
-  color: #334155;
+  color: #334155 !important;
 }
 
 /* Toast UI Viewer & Editor Markdown Dark Mode Support */
@@ -240,11 +263,34 @@
 
 .dark .toastui-editor-contents blockquote,
 .dark .toastui-viewer-container blockquote {
-  color: #f1f5f9 !important;
   border-left: 4px solid #6366f1 !important;
   background-color: rgba(30, 41, 59, 0.4) !important;
   padding: 8px 16px !important;
   border-radius: 0 8px 8px 0 !important;
+}
+
+.dark .toastui-editor-contents blockquote,
+.dark .toastui-viewer-container blockquote,
+.dark .toastui-editor-contents blockquote *,
+.dark .toastui-viewer-container blockquote *,
+.dark .toastui-editor-contents blockquote p,
+.dark .toastui-viewer-container blockquote p,
+.dark .toastui-editor-contents blockquote ul,
+.dark .toastui-viewer-container blockquote ul,
+.dark .toastui-editor-contents blockquote ol,
+.dark .toastui-viewer-container blockquote ol,
+.dark .toastui-editor-contents blockquote em,
+.dark .toastui-viewer-container blockquote em,
+.dark .toastui-editor-contents blockquote span,
+.dark .toastui-viewer-container blockquote span,
+.dark .toastui-editor-contents del {
+  color: #f1f5f9 !important;
+}
+
+.dark .toastui-editor-contents blockquote strong,
+.dark .toastui-viewer-container blockquote strong {
+  color: #ffffff !important;
+  font-weight: 700 !important;
 }
 
 .dark .toastui-editor-contents code,
