@@ -77,22 +77,30 @@ describe('apiHelper', () => {
 
     await apiHelper.fetchData('/api/already')
     expect(mockFetch).toHaveBeenCalledWith('http://localhost:8081/api/already', expect.any(Object))
+
+    await apiHelper.fetchData('/api')
+    expect(mockFetch).toHaveBeenCalledWith('http://localhost:8081/api', expect.any(Object))
   })
 
-  it('reads VITE_API_BASE_URL from env or falls back to the relative /api proxy path', async () => {
+  it('reads VITE_API_BASE_URL from env or handles empty, trailing slashes, and /api suffix', async () => {
     const originalViteApi = import.meta.env.VITE_API_BASE_URL
     const mockFetch = vi.fn().mockResolvedValue(okResponse({ ok: true }))
     vi.stubGlobal('fetch', mockFetch)
 
     delete import.meta.env.VITE_API_BASE_URL
-    expect(apiHelper.getBaseUrl()).toBe('/api')
+    expect(apiHelper.getBaseUrl()).toBe('')
     await apiHelper.fetchData('/posts')
     expect(mockFetch).toHaveBeenLastCalledWith('/api/posts', expect.any(Object))
 
-    import.meta.env.VITE_API_BASE_URL = 'https://api.example.com/v1/'
-    expect(apiHelper.getBaseUrl()).toBe('https://api.example.com/v1/')
+    import.meta.env.VITE_API_BASE_URL = 'https://api.example.com/'
+    expect(apiHelper.getBaseUrl()).toBe('https://api.example.com')
     await apiHelper.fetchData('/posts')
-    expect(mockFetch).toHaveBeenLastCalledWith('https://api.example.com/v1/posts', expect.any(Object))
+    expect(mockFetch).toHaveBeenLastCalledWith('https://api.example.com/api/posts', expect.any(Object))
+
+    import.meta.env.VITE_API_BASE_URL = 'https://api.example.com/api'
+    expect(apiHelper.getBaseUrl()).toBe('https://api.example.com/api')
+    await apiHelper.apiRequest('/posts')
+    expect(mockFetch).toHaveBeenLastCalledWith('https://api.example.com/api/posts', expect.any(Object))
 
     import.meta.env.VITE_API_BASE_URL = originalViteApi
   })

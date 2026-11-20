@@ -1,6 +1,6 @@
 const apiHelper = (() => {
   const getBaseUrl = () => {
-    return import.meta.env.VITE_API_BASE_URL || '/api'
+    return (import.meta.env.VITE_API_BASE_URL || '').replace(/\/+$/, '')
   }
 
   function getAccessToken() {
@@ -28,7 +28,7 @@ const apiHelper = (() => {
     }
   }
 
-  async function fetchData(url, options = {}) {
+  async function apiRequest(url, options = {}) {
     const token = getAccessToken()
     const headers = {
       'Content-Type': 'application/json',
@@ -39,16 +39,16 @@ const apiHelper = (() => {
       headers.Authorization = `Bearer ${token}`
     }
 
-    const baseUrl = getBaseUrl().replace(/\/+$/, '')
     let fullUrl = url
-    if (url.startsWith('http://') || url.startsWith('https://')) {
-      fullUrl = url
-    } else {
-      let cleanPath = url.replace(/^\/+/, '')
-      if (baseUrl.endsWith('/api') && cleanPath.startsWith('api/')) {
-        cleanPath = cleanPath.slice(4)
+    if (!url.startsWith('http://') && !url.startsWith('https://')) {
+      const BASE_URL = getBaseUrl()
+      let normalizedPath = url.startsWith('/') ? url : `/${url}`
+      if (!normalizedPath.startsWith('/api/') && normalizedPath !== '/api') {
+        normalizedPath = `/api${normalizedPath}`
       }
-      fullUrl = `${baseUrl}/${cleanPath}`
+      fullUrl = BASE_URL.endsWith('/api')
+        ? `${BASE_URL.slice(0, -4)}${normalizedPath}`
+        : `${BASE_URL}${normalizedPath}`
     }
 
     const response = await fetch(fullUrl, {
@@ -69,7 +69,8 @@ const apiHelper = (() => {
     putAccessToken,
     getUser,
     putUser,
-    fetchData,
+    fetchData: apiRequest,
+    apiRequest,
   }
 })()
 

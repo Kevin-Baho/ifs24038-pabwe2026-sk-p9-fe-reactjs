@@ -184,14 +184,15 @@ export default function App() {
   // ---------- AI handlers ----------
   const handleGenerateAi = async (params) => {
     setAiLoading(true)
+    let result = null
     try {
-      return await blogApi.generateAiPost(params)
+      result = await blogApi.generateAiPost(params)
     } catch (err) {
       showErrorAlert(err.message)
-      return null
     } finally {
       setAiLoading(false)
     }
+    return result
   }
 
   const handleApplyAi = (draft) => {
