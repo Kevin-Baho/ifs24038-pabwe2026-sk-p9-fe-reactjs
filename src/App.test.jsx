@@ -17,6 +17,7 @@ const postPublished = {
   category: 'Teknologi',
   content: 'Hooks memudahkan state di komponen fungsi.',
   status: 'published',
+  is_published: true,
   author: { username: 'penulis' },
   published_at: '2026-03-15T00:00:00Z',
 }
@@ -28,6 +29,7 @@ const postDraft = {
   category: 'Bisnis',
   content: 'Catatan awal bisnis.',
   status: 'draft',
+  is_published: false,
   author: { username: 'penulis' },
   created_at: '2026-03-16T00:00:00Z',
 }
@@ -39,6 +41,7 @@ const postOpini = {
   category: 'Pendidikan',
   content: 'Teknologi mengubah cara belajar.',
   status: 'published',
+  is_published: true,
   author: { username: 'siti' },
   published_at: '2026-02-01T00:00:00Z',
 }
@@ -62,8 +65,8 @@ function createFetch(overrides = {}) {
     'PUT /posts/1': (body) => ({ data: { id: 1, ...body } }),
     'DELETE /posts/1': () => ({ data: { message: 'deleted' } }),
     'DELETE /posts/2': () => ({ data: { message: 'deleted' } }),
-    'PATCH /posts/1/toggle-publish': () => ({ data: {} }),
-    'PATCH /posts/2/toggle-publish': () => ({ data: {} }),
+    'PATCH /posts/1/toggle-publish': () => ({ data: { id: 1, is_published: false, status: 'draft' } }),
+    'PATCH /posts/2/toggle-publish': () => ({ data: { id: 2, is_published: true, status: 'published' } }),
     'POST /posts/ai-generate': () => ({
       data: {
         title: 'Judul Hasil AI',

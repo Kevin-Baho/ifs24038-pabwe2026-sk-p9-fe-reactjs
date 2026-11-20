@@ -10,6 +10,7 @@ const posts = [
     slug: 'artikel-terbit',
     category: 'Teknologi',
     status: 'published',
+    is_published: true,
     published_at: '2026-03-15T00:00:00Z',
   },
   {
@@ -18,6 +19,7 @@ const posts = [
     slug: 'artikel-draf',
     category: 'Bisnis',
     status: 'draft',
+    is_published: false,
     created_at: '2026-03-16T00:00:00Z',
   },
   {
@@ -26,6 +28,7 @@ const posts = [
     slug: 'draf-kedua',
     category: 'Umum',
     status: 'draft',
+    is_published: false,
     created_at: '2026-03-17T00:00:00Z',
   },
 ]

@@ -21,7 +21,7 @@ export default function AuthorDashboard({
 }) {
   const [openKebabId, setOpenKebabId] = useState(null)
 
-  const published = posts.filter((post) => post.status === 'published').length
+  const published = posts.filter((post) => Boolean(post.is_published)).length
   const stats = { total: posts.length, published, draft: posts.length - published }
 
   return (
@@ -81,7 +81,7 @@ export default function AuthorDashboard({
               </thead>
               <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
                 {posts.map((post) => {
-                  const isPublished = post.status === 'published'
+                  const isPublished = Boolean(post.is_published)
                   const isMenuOpen = openKebabId === post.id
 
                   return (
@@ -137,7 +137,7 @@ export default function AuthorDashboard({
 
                           {isMenuOpen && (
                             <div
-                              className="absolute right-0 top-full mt-1.5 z-50 w-36 bg-white dark:bg-slate-800 rounded-xl shadow-2xl border border-slate-200 dark:border-slate-700 py-1 text-left"
+                              className="absolute right-0 bottom-full mb-1 z-50 w-36 bg-white dark:bg-slate-800 rounded-lg shadow-xl border border-gray-100 dark:border-slate-700 py-1 text-left"
                               data-testid={`kebab-menu-${post.id}`}
                             >
                               <button
