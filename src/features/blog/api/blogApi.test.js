@@ -31,37 +31,42 @@ describe('blogApi', () => {
   it('loads author posts and falls back to an empty list when data is null', async () => {
     apiHelper.fetchData.mockResolvedValueOnce({ data: [{ id: 2 }] })
     expect(await blogApi.getMyPosts()).toEqual([{ id: 2 }])
-    expect(apiHelper.fetchData).toHaveBeenLastCalledWith('/posts')
+    expect(apiHelper.fetchData).toHaveBeenLastCalledWith('/api/posts')
 
     apiHelper.fetchData.mockResolvedValueOnce({ data: null })
     expect(await blogApi.getMyPosts()).toEqual([])
   })
 
-  it('creates, updates, deletes posts and changes publication status', async () => {
+  it('creates, updates, deletes posts, toggles publication, and gets post by id / stats', async () => {
+    apiHelper.fetchData.mockResolvedValueOnce({ data: { total: 5 } })
+    expect(await blogApi.getPostStats()).toEqual({ total: 5 })
+    expect(apiHelper.fetchData).toHaveBeenLastCalledWith('/api/posts/stats')
+
     apiHelper.fetchData.mockResolvedValueOnce({ data: { id: 1, title: 'New' } })
     expect(await blogApi.createPost({ title: 'New' })).toEqual({ id: 1, title: 'New' })
-    expect(apiHelper.fetchData).toHaveBeenLastCalledWith('/posts', {
+    expect(apiHelper.fetchData).toHaveBeenLastCalledWith('/api/posts', {
       method: 'POST',
       body: JSON.stringify({ title: 'New' }),
     })
 
+    apiHelper.fetchData.mockResolvedValueOnce({ data: { id: 1, title: 'Single' } })
+    expect(await blogApi.getPostById(1)).toEqual({ id: 1, title: 'Single' })
+    expect(apiHelper.fetchData).toHaveBeenLastCalledWith('/api/posts/1')
+
     apiHelper.fetchData.mockResolvedValueOnce({ data: { id: 1, title: 'Updated' } })
     expect(await blogApi.updatePost(1, { title: 'Updated' })).toEqual({ id: 1, title: 'Updated' })
-    expect(apiHelper.fetchData).toHaveBeenLastCalledWith('/posts/1', {
+    expect(apiHelper.fetchData).toHaveBeenLastCalledWith('/api/posts/1', {
       method: 'PUT',
       body: JSON.stringify({ title: 'Updated' }),
     })
 
     apiHelper.fetchData.mockResolvedValueOnce({ data: { message: 'Deleted' } })
     expect(await blogApi.deletePost(1)).toEqual({ message: 'Deleted' })
-    expect(apiHelper.fetchData).toHaveBeenLastCalledWith('/posts/1', { method: 'DELETE' })
+    expect(apiHelper.fetchData).toHaveBeenLastCalledWith('/api/posts/1', { method: 'DELETE' })
 
-    apiHelper.fetchData.mockResolvedValueOnce({ data: { id: 1, status: 'draft' } })
-    expect(await blogApi.setPostStatus(1, 'draft')).toEqual({ id: 1, status: 'draft' })
-    expect(apiHelper.fetchData).toHaveBeenLastCalledWith('/posts/1/status', {
-      method: 'PATCH',
-      body: JSON.stringify({ status: 'draft' }),
-    })
+    apiHelper.fetchData.mockResolvedValueOnce({ data: { id: 1, status: 'published' } })
+    expect(await blogApi.togglePublish(1)).toEqual({ id: 1, status: 'published' })
+    expect(apiHelper.fetchData).toHaveBeenLastCalledWith('/api/posts/1/toggle-publish', { method: 'PATCH' })
   })
 
   it('generates AI posts and normalizes missing search_sources to an empty array', async () => {
@@ -73,7 +78,7 @@ describe('blogApi', () => {
       content: 'Isi',
       search_sources: ['https://id.wikipedia.org - Go'],
     })
-    expect(apiHelper.fetchData).toHaveBeenLastCalledWith('/posts/ai-generate', {
+    expect(apiHelper.fetchData).toHaveBeenLastCalledWith('/api/posts/ai-generate', {
       method: 'POST',
       body: JSON.stringify({ prompt: 'Go', include_web_search: true }),
     })

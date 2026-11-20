@@ -13,21 +13,31 @@ const blogApi = (() => {
   }
 
   // ---------- Penulis (Login) ----------
+  async function getPostStats() {
+    const res = await apiHelper.fetchData('/api/posts/stats')
+    return res.data
+  }
+
   async function getMyPosts() {
-    const res = await apiHelper.fetchData('/posts')
+    const res = await apiHelper.fetchData('/api/posts')
     return res.data || []
   }
 
   async function createPost(data) {
-    const res = await apiHelper.fetchData('/posts', {
+    const res = await apiHelper.fetchData('/api/posts', {
       method: 'POST',
       body: JSON.stringify(data),
     })
     return res.data
   }
 
+  async function getPostById(id) {
+    const res = await apiHelper.fetchData(`/api/posts/${id}`)
+    return res.data
+  }
+
   async function updatePost(id, data) {
-    const res = await apiHelper.fetchData(`/posts/${id}`, {
+    const res = await apiHelper.fetchData(`/api/posts/${id}`, {
       method: 'PUT',
       body: JSON.stringify(data),
     })
@@ -35,23 +45,22 @@ const blogApi = (() => {
   }
 
   async function deletePost(id) {
-    const res = await apiHelper.fetchData(`/posts/${id}`, {
+    const res = await apiHelper.fetchData(`/api/posts/${id}`, {
       method: 'DELETE',
     })
     return res.data
   }
 
-  async function setPostStatus(id, status) {
-    const res = await apiHelper.fetchData(`/posts/${id}/status`, {
+  async function togglePublish(id) {
+    const res = await apiHelper.fetchData(`/api/posts/${id}/toggle-publish`, {
       method: 'PATCH',
-      body: JSON.stringify({ status }),
     })
     return res.data
   }
 
   // ---------- AI Generator + Search Engine ----------
   async function generateAiPost(data) {
-    const res = await apiHelper.fetchData('/posts/ai-generate', {
+    const res = await apiHelper.fetchData('/api/posts/ai-generate', {
       method: 'POST',
       body: JSON.stringify(data),
     })
@@ -61,11 +70,13 @@ const blogApi = (() => {
   return {
     getPublicPosts,
     getPublicPostBySlug,
+    getPostStats,
     getMyPosts,
     createPost,
+    getPostById,
     updatePost,
     deletePost,
-    setPostStatus,
+    togglePublish,
     generateAiPost,
   }
 })()

@@ -171,10 +171,9 @@ export default function App() {
   }
 
   const handleTogglePublish = async (post) => {
-    const nextStatus = post.status === 'published' ? 'draft' : 'published'
     try {
-      await blogApi.setPostStatus(post.id, nextStatus)
-      showToast(nextStatus === 'published' ? 'Artikel diterbitkan.' : 'Artikel dikembalikan ke draf.')
+      await blogApi.togglePublish(post.id)
+      showToast(post.status === 'published' ? 'Artikel dikembalikan ke draf.' : 'Artikel diterbitkan.')
       await refreshAll()
     } catch (err) {
       showErrorAlert(err.message)

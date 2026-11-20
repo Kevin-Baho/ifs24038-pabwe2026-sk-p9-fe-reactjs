@@ -62,8 +62,8 @@ function createFetch(overrides = {}) {
     'PUT /posts/1': (body) => ({ data: { id: 1, ...body } }),
     'DELETE /posts/1': () => ({ data: { message: 'deleted' } }),
     'DELETE /posts/2': () => ({ data: { message: 'deleted' } }),
-    'PATCH /posts/1/status': () => ({ data: {} }),
-    'PATCH /posts/2/status': () => ({ data: {} }),
+    'PATCH /posts/1/toggle-publish': () => ({ data: {} }),
+    'PATCH /posts/2/toggle-publish': () => ({ data: {} }),
     'POST /posts/ai-generate': () => ({
       data: {
         title: 'Judul Hasil AI',
@@ -296,12 +296,10 @@ describe('App Integration', () => {
 
     // Switch publikasi: Terbit -> Draf, Draf -> Terbit
     fireEvent.click(screen.getByLabelText('toggle-publish-1'))
-    await waitFor(() => expect(callsOf(fetchMock, 'PATCH', '/posts/1/status')).toHaveLength(1))
-    expect(lastBody(fetchMock, 'PATCH', '/posts/1/status')).toEqual({ status: 'draft' })
+    await waitFor(() => expect(callsOf(fetchMock, 'PATCH', '/posts/1/toggle-publish')).toHaveLength(1))
 
     fireEvent.click(screen.getByLabelText('toggle-publish-2'))
-    await waitFor(() => expect(callsOf(fetchMock, 'PATCH', '/posts/2/status')).toHaveLength(1))
-    expect(lastBody(fetchMock, 'PATCH', '/posts/2/status')).toEqual({ status: 'published' })
+    await waitFor(() => expect(callsOf(fetchMock, 'PATCH', '/posts/2/toggle-publish')).toHaveLength(1))
 
     // Tambah artikel
     fireEvent.click(screen.getByText('Tambah Artikel'))
@@ -390,7 +388,7 @@ describe('App Integration', () => {
       createFetch({
         'POST /posts': () => ({ __status: 500, message: 'Gagal simpan' }),
         'DELETE /posts/1': () => ({ __status: 500, message: 'Gagal hapus' }),
-        'PATCH /posts/1/status': () => ({ __status: 500, message: 'Gagal ubah status' }),
+        'PATCH /posts/1/toggle-publish': () => ({ __status: 500, message: 'Gagal ubah status' }),
         'POST /posts/ai-generate': () => ({ __status: 500, message: 'AI error' }),
       })
     )
