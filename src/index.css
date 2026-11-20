@@ -123,6 +123,25 @@
   animation: fadeIn 0.15s ease-out forwards;
 }
 
+/* Toast UI Viewer & Editor Markdown Contrast Fixes (WCAG 2 AA) */
+.toastui-editor-contents blockquote,
+.toastui-viewer-container blockquote {
+  color: #334155 !important;
+  border-left: 4px solid var(--accent-500, #6366f1) !important;
+  background-color: #f8fafc !important;
+  padding: 8px 16px !important;
+  border-radius: 0 8px 8px 0 !important;
+}
+
+.toastui-editor-contents,
+.toastui-editor-contents p,
+.toastui-editor-contents li,
+.toastui-viewer-container,
+.toastui-viewer-container p,
+.toastui-viewer-container li {
+  color: #334155;
+}
+
 /* Toast UI Viewer & Editor Markdown Dark Mode Support */
 .dark .toastui-editor-contents,
 .dark .toastui-editor-contents p,
@@ -221,7 +240,7 @@
 
 .dark .toastui-editor-contents blockquote,
 .dark .toastui-viewer-container blockquote {
-  color: #94a3b8 !important;
+  color: #f1f5f9 !important;
   border-left: 4px solid #6366f1 !important;
   background-color: rgba(30, 41, 59, 0.4) !important;
   padding: 8px 16px !important;

@@ -26,6 +26,7 @@ export default function StickyNavbar({
 
   return (
     <header
+      role="banner"
       className="sticky top-0 z-30 bg-white/90 dark:bg-slate-900/90 backdrop-blur border-b border-slate-200 dark:border-slate-800 shadow-xs"
       data-testid="sticky-navbar"
     >

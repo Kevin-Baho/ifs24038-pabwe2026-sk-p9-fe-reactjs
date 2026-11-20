@@ -101,8 +101,8 @@ export default function AdminDashboard({ users, posts }) {
                       <span
                         className={`px-2.5 py-0.5 rounded-full text-xs font-semibold ${
                           post.status === 'published'
-                            ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300'
-                            : 'bg-amber-100 text-amber-700 dark:bg-amber-950/50 dark:text-amber-300'
+                            ? 'bg-emerald-100 text-emerald-900 border border-emerald-300 dark:bg-emerald-950/50 dark:text-emerald-300'
+                            : 'bg-amber-100 text-amber-900 border border-amber-300 dark:bg-amber-950/50 dark:text-amber-300'
                         }`}
                       >
                         {post.status === 'published' ? 'Terbit' : 'Draf'}

@@ -212,12 +212,14 @@ export default function App() {
   if (currentPath === '/login' || currentPath === '/register') {
     return (
       <div data-testid="app-container">
-        <AuthPage
-          mode={currentPath === '/login' ? 'login' : 'register'}
-          onLogin={handleLogin}
-          onRegister={handleRegister}
-          onNavigate={navigate}
-        />
+        <main id="main-content" className="flex-1 w-full">
+          <AuthPage
+            mode={currentPath === '/login' ? 'login' : 'register'}
+            onLogin={handleLogin}
+            onRegister={handleRegister}
+            onNavigate={navigate}
+          />
+        </main>
       </div>
     )
   }
@@ -298,7 +300,7 @@ export default function App() {
         onChangeAccent={changeAccent}
       />
 
-      <main className="flex-1 w-full p-4 sm:p-6 lg:p-8">{content}</main>
+      <main id="main-content" className="flex-1 w-full p-4 sm:p-6 lg:p-8">{content}</main>
 
       <AuthModal
         isOpen={needsLogin}

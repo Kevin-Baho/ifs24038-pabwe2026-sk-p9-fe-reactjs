@@ -27,7 +27,7 @@ export default function MarkdownViewer({ content = '' }) {
   }, [content])
 
   return (
-    <div className="toastui-viewer-container" data-testid="markdown-viewer">
+    <div className="toastui-viewer-container text-slate-700 dark:text-slate-100" data-testid="markdown-viewer">
       <div ref={viewerElRef} />
     </div>
   )

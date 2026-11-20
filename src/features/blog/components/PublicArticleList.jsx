@@ -184,6 +184,7 @@ export default function PublicArticleList({ posts, loading, user, onOpenPost, on
         </div>
       </div>
 
+      <h2 className="sr-only">Daftar Artikel Blog</h2>
       {body}
     </div>
   )

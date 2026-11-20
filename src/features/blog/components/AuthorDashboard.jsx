@@ -115,8 +115,8 @@ export default function AuthorDashboard({
                           <span
                             className={`text-xs font-semibold ${
                               isPublished
-                                ? 'text-emerald-600 dark:text-emerald-400'
-                                : 'text-slate-500 dark:text-slate-400'
+                                ? 'text-emerald-800 dark:text-emerald-300'
+                                : 'text-slate-600 dark:text-slate-400'
                             }`}
                           >
                             {isPublished ? 'Terbit' : 'Draf'}
