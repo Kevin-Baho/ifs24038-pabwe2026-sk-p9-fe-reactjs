@@ -24,6 +24,28 @@ export default defineConfig(({ mode }) => {
       strictPort: true,
       proxy: apiProxy,
     },
+    build: {
+      target: 'es2022',
+      sourcemap: true,
+      rollupOptions: {
+        output: {
+          manualChunks(id) {
+            if (id.includes('@toast-ui/editor')) {
+              return 'toastui-editor'
+            }
+            if (id.includes('sweetalert2')) {
+              return 'sweetalert2'
+            }
+            if (id.includes('@tabler/icons-react')) {
+              return 'tabler-icons'
+            }
+            if (id.includes('node_modules')) {
+              return 'vendor'
+            }
+          },
+        },
+      },
+    },
     test: {
       globals: true,
       environment: 'jsdom',

@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://ifs24038-pabwe2026-sk-p9-fe-reactjs.vercel.app/sitemap.xml
