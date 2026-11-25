@@ -24,6 +24,9 @@ export default defineConfig(({ mode }) => {
       strictPort: true,
       proxy: apiProxy,
     },
+    esbuild: {
+      drop: mode === 'production' ? ['console', 'debugger'] : [],
+    },
     build: {
       target: 'es2022',
       sourcemap: true,
