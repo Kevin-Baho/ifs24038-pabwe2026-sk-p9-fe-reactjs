@@ -4,6 +4,17 @@ import tailwindcss from '@tailwindcss/vite'
 
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '')
+
+  const deferNonCriticalCssPlugin = () => ({
+    name: 'defer-non-critical-css',
+    transformIndexHtml(html) {
+      return html.replace(
+        /<link rel="stylesheet" crossorigin href="([^"]*toastui-editor[^"]*\.css)">/g,
+        '<link rel="stylesheet" crossorigin href="$1" media="print" onload="this.media=\'all\'"><noscript><link rel="stylesheet" crossorigin href="$1"></noscript>'
+      )
+    },
+  })
+
   // Reverse proxy rute /api ke Backend (port 8081). Dipakai oleh `vite dev` dan `vite preview`.
   const apiProxy = {
     '/api': {
@@ -13,7 +24,7 @@ export default defineConfig(({ mode }) => {
   }
 
   return {
-    plugins: [react(), tailwindcss()],
+    plugins: [react(), tailwindcss(), deferNonCriticalCssPlugin()],
     server: {
       port: 5174,
       strictPort: true,
@@ -30,6 +41,7 @@ export default defineConfig(({ mode }) => {
     build: {
       target: 'es2022',
       sourcemap: true,
+      modulePreload: false,
       rollupOptions: {
         output: {
           manualChunks(id) {
